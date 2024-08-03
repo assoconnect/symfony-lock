@@ -50,7 +50,11 @@ trait DatabaseTableTrait
      */
     private function getHashedKey(Key $key): string
     {
-        return hash('sha256', (string) $key);
+        $keyAsString = (string) $key;
+        if (strlen($keyAsString) <= 64) {
+            return $keyAsString;
+        }
+        return hash('sha256', $keyAsString);
     }
 
     private function getUniqueToken(Key $key): string
